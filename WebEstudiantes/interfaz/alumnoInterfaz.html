@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Alumno</title>
+    <link rel="stylesheet" href="../estilos.css">
+    <script src="../controInterfaz/alumnoInterfaz.js"></script>
+</head>
+<body>
+    <div class="container interfaz-alumno">
+        <h2 id="bienvenidaAlumno">Bienvenido, Alumno</h2>
+        <div id="promedioAlumno"></div>
+        <hr>
+        <div id="modalMaterias" style="display:none;">
+            <h4>Elige tus materias</h4>
+            <div id="materiasBtns"></div>
+            <button onclick="guardarMateriasElegidas()">Guardar materias</button>
+        </div>
+
+        <div id="contenidoAlumno" style="display:none;">
+            <h3 class="tareas-materia-heading">
+                Tareas de la materia
+                <select id="selectMateriaAlumno"></select>
+            </h3>
+            <ul id="listaTareasMateria"></ul>
+            <h3>Mis entregas</h3>
+            <ul id="listaEntregas"></ul>
+        </div>
+        <!-- Modal o sección para entregar tarea -->
+        <div id="entregaModal" style="display:none;">
+            <h4 id="tituloEntrega"></h4>
+            <input type="file" id="archivoEntrega">
+            <button onclick="confirmarEntrega()">Subir trabajo</button>
+            <button onclick="cerrarModalEntrega()">Cancelar</button>
+        </div>
+        <div id="mensajeTarea"></div>
+        <button id="cerrSesionAlumno" type="button" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión</button>
+        <!-- Agrega este botón donde prefieras en la interfaz del alumno -->
+    </div>
+</body>
+</html>

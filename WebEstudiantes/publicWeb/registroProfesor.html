@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Profesor</title>
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Profesor</h2>
+        <form id="registroProfeForm">
+            <label for="nombreProfe">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="username">
+            <label for="passwordProfe">Contraseña:</label>
+            <input type="password" id="passwordProfe" name="passwordProfe" required autocomplete="current-password">
+            <label for="emailProfe">Email:</label>
+            <input type="email" id="emailProfe" name="emailProfe" required autocomplete="email">
+            <button type="submit">Registrarse</button>
+            <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+        </form>
+        <div id="mensajeProfe"></div>
+    </div>
+    <script src="../controlRegistro/registroProfesor.js"></script>
+
+</body>
+</html>
