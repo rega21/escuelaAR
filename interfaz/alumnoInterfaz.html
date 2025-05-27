@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Alumno</title>
+    <link rel="stylesheet" href="../estilos.css">
+    <script src="../controInterfaz/alumnoInterfaz.js"></script>
+</head>
+<body>
+    <div class="container interfaz-alumno">
+        <!-- Perfil y selección de avatar -->
+        <div id="perfilAlumnoMenu" style="margin-bottom: 10px;">
+            <!-- Mensaje de bienvenida con el nombre del alumno -->
+            <span id="bienvenidaAlumno"></span>
+            <!-- Selector de avatar con emojis de animales -->
+            <select id="selectAvatarAlumno" style="margin-left:10px; vertical-align:middle;">
+                <option value="gato.png">🐱 Gato</option>
+                <option value="perro.png">🐶 Perro</option>
+                <option value="panda.png">🐼 Panda</option>
+                <option value="zorro.png">🦊 Zorro</option>
+                <option value="conejo.png">🐰 Conejo</option>
+            </select>
+            <!-- Si quieres mostrar la imagen del avatar, agrega aquí el <img id="fotoPerfilAlumno"> -->
+        </div>
+        <!-- Promedio del alumno -->
+        <div id="promedioAlumno"></div>
+        <hr>
+        <!-- Menú de selección de materias -->
+        <div id="modalMaterias" style="display:none;">
+            <h4>Seleccion materias a cursar</h4>
+            <div id="materiasBtns"></div>
+            <!-- Botón para guardar materias elegidas -->
+            <button id="guardarMateriasElegidas" onclick="guardarMateriasElegidas()">Guardar materias</button>
+            <!-- Botón para ir al panel de tareas -->
+            <button id="btnIrPanelAlumno" onclick="volverAlPanelAlumno()" disabled>Panel de tareas</button>
+            <!-- Mensaje de confirmación o advertencia -->
+            <p id="mensajeMaterias" class="mensaje-confirmacion"></p>
+        </div>
+        <!-- Panel de tareas y entregas -->
+        <div id="contenidoAlumno" style="display:none;">
+            <h3 class="tareas-materia-heading">
+                Tareas de la materia
+                <!-- Selector de materia para ver tareas -->
+                <select id="selectMateriaAlumno"></select>
+            </h3>
+            <!-- Lista de tareas de la materia seleccionada -->
+            <ul id="listaTareasMateria"></ul>
+            <h3>Mis entregas</h3>
+            <!-- Lista de entregas realizadas -->
+            <ul id="listaEntregas"></ul>
+        </div>
+        <!-- Modal para entregar tarea -->
+        <div id="entregaModal" style="display:none;">
+            <h4 id="tituloEntrega"></h4>
+            <input type="file" id="archivoEntrega">
+            <button onclick="confirmarEntrega()">Subir trabajo</button>
+            <button onclick="cerrarModalEntrega()">Cancelar</button>
+        </div>
+        <!-- Mensaje general para tareas -->
+        <div id="mensajeTarea"></div>
+        <!-- Botón para volver al menú de materias -->
+        <button id="btnMenuAlumno" type="button" onclick="abrirMenuAlumno()" style="display:none;">Menú</button>
+        <button type="button" id="cerrSesionAlumno" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión </button>
+
+    </div>
+</body>
+</html>

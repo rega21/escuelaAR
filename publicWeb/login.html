@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="username">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <button type="submit">Ingresar</button>
+            <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+        </form>
+        <div id="mensajeLogin"></div>
+    </div>
+    <script src="../controlRegistro/loginUnico.js"></script>
+</body>
+</html>

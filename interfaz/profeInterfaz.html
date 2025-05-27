@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Profesor</title>
+    <link rel="stylesheet" href="../estilos.css">
+    <script src="../controInterfaz/profeInterfaz.js"></script>
+</head>
+<body>
+    <div class="container interfaz-profe">
+        <h2 id="bienvenidaProfe"></h2>
+        <p id="infoMateriaProfe"></p>
+        <form id="formTarea">
+            <label for="tituloTarea">Título:</label>
+            <input type="text" id="tituloTarea" required>
+            <label for="descripcionTarea">Descripción:</label>
+            <textarea id="descripcionTarea" required></textarea>
+            <label for="materiaTarea">Materia:</label>
+            <input type="text" id="materiaTarea" readonly>
+            <button type="submit">Agregar tarea</button>
+        </form>
+        <div id="mensajeTarea"></div>
+        <table id="tablaAlumnos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Promedio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán los alumnos por JS -->
+            </tbody>
+        </table>
+        <div id="historialAlumno"></div>
+        <ul id="listaTareasProfe"></ul>
+     <!--    <h3>Alumnos anotados en mi materia</h3>
+        <ul id="listaAlumnosMateria"></ul>-->
+        <button type="button" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión</button>
+    </div>
+    
+</body>
+</html>
