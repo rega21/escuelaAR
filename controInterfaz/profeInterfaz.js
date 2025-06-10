@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
             listaTareas.innerHTML = '<li>No hay tareas publicadas.</li>';
             return;
         }
-        tareas.forEach(function(tarea, idx) {
+        tareas.forEach((tarea, i) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>Tarea ${idx + 1}:</strong> ${tarea.titulo}<br>${tarea.descripcion}`;
+            li.innerHTML = `<span class="numero-tarea">${i + 1}.</span> <strong>${tarea.titulo}</strong>: ${tarea.descripcion}`;
             listaTareas.appendChild(li);
         });
     }
@@ -92,7 +92,7 @@ window.verHistorial = function(nombreAlumno) {
     // Filtrar solo tareas de la materia del profesor
     const tareasMateria = tareas.filter(t => t.materia === profesor.materia);
 
-    let html = `<h4>Historial de entregas de ${alumno.nombre} en ${profesor.materia}</h4>
+    let html = `<h4 class="titulo-seccion">Historial de entregas de ${alumno.nombre} en ${profesor.materia}</h4>
     <table border="1" style="width:100%;text-align:left;">
         <tr>
             <th>Tarea</th>
@@ -136,7 +136,7 @@ window.verHistorial = function(nombreAlumno) {
     });
 
     html += `</table>
-    <button onclick="guardarPromedio('${alumno.nombre}')">Guardar</button>`;
+    <button onclick="guardarPromedio('${alumno.nombre}')">Actualizar promedio</button>`;
     document.getElementById('historialAlumno').innerHTML = html;
    
 }
@@ -170,10 +170,17 @@ window.guardarPromedio = function(nombreAlumno) {
             const promedio = (suma / calificadas.length).toFixed(2);
             alumno.promedio = Number(promedio);
             localStorage.setItem('alumnos', JSON.stringify(alumnos));
-            mostrarAlumnosMateriaEnTabla(); // <-- Solo alumnos de la materia
+            mostrarAlumnosMateriaEnTabla(); // Actualiza la tabla
+            verHistorial(nombreAlumno); // Refresca el historial
+            // Muestra mensaje de éxito
+            const historialDiv = document.getElementById('historialAlumno');
+            const msg = document.createElement('div');
+            msg.style.color = 'green';
+            msg.textContent = 'Promedio guardado correctamente.';
+            historialDiv.appendChild(msg);
         }
     }
-    // No mostrar mensaje
+    // Si no hay entregas calificadas, podrías mostrar un mensaje de error si quieres
 }
 
 // Mostrar tareas asignadas en la interfaz del profesor
@@ -198,6 +205,12 @@ function mostrarTareasProfe() {
     // Si tienes un formulario para agregar tareas, fuerza la materia:
     document.getElementById('materiaTarea').value = profesor.materia;
     document.getElementById('materiaTarea').disabled = true;
+
+    // Nueva sección: Mostrar tareas asignadas a alumnos
+    const h3 = document.createElement('h3');
+    h3.className = 'titulo-seccion';
+    h3.textContent = 'Tareas asignadas a tus alumnos';
+    lista.parentNode.insertBefore(h3, lista);
 }
 
 // Mostrar tareas y alumnos en la interfaz del profesor al cargar la página
@@ -220,17 +233,40 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function mostrarTareasYAlumnosMateria(materia) {
-    // Mostrar solo tareas de la materia del profesor
     const tareas = JSON.parse(localStorage.getItem('tareas') || '[]')
         .filter(t => t.materia === materia);
 
     const lista = document.getElementById('listaTareasProfe');
     lista.innerHTML = '';
-    tareas.forEach(tarea => {
+
+    // Elimina contador anterior si existe
+    const oldCounter = document.getElementById('contadorTareasProfe');
+    if (oldCounter) oldCounter.remove();
+
+    // Elimina h3 anterior si existe
+    const oldH3 = lista.parentNode.querySelector('h3.titulo-seccion');
+    if (oldH3) oldH3.remove();
+
+    // Agrega el h3 primero
+    const h3 = document.createElement('h3');
+    h3.className = 'titulo-seccion';
+    h3.textContent = 'Tareas asignadas a tus alumnos';
+    lista.parentNode.insertBefore(h3, lista);
+
+    // Agrega la lista de tareas
+    tareas.forEach((tarea, i) => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${tarea.titulo}</strong>: ${tarea.descripcion}`;
+        li.innerHTML = `<span class="numero-tarea">${i + 1}.</span> <strong>${tarea.titulo}</strong>: ${tarea.descripcion}`;
         lista.appendChild(li);
     });
+
+    // Ahora el contador debajo de la lista
+    const contador = document.createElement('div');
+    contador.id = 'contadorTareasProfe';
+    contador.className = 'contador-tareas';
+    contador.textContent = `Tareas asignadas: ${tareas.length}`;
+    // Insertar después de la lista
+    lista.parentNode.insertBefore(contador, lista.nextSibling);
 }
 
 // Mostrar solo alumnos anotados en la materia del profesor logueado
@@ -242,9 +278,11 @@ function mostrarAlumnosMateriaEnTabla() {
     if (!profesor) return;
 
     const alumnosMateria = alumnos.filter(al => (al.materias || []).includes(profesor.materia));
-    const tbody = document.querySelector('#tablaAlumnos tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
+    const tabla = document.getElementById('tablaAlumnos');
+    tabla.innerHTML = ''; // Limpia la tabla
+    tabla.appendChild(crearTheadTablaAlumnos()); // Agrega el thead
+
+    const tbody = document.createElement('tbody');
     alumnosMateria.forEach(al => {
         const promedio = calcularPromedioMateria(al, profesor.materia);
         const tr = document.createElement('tr');
@@ -258,6 +296,7 @@ function mostrarAlumnosMateriaEnTabla() {
         `;
         tbody.appendChild(tr);
     });
+    tabla.appendChild(tbody);
 }
 
 // Llama a esta función en tu DOMContentLoaded:
@@ -287,4 +326,19 @@ function calcularPromedioMateria(alumno, materia) {
     if (calificaciones.length === 0) return 'N/A';
     const suma = calificaciones.reduce((acc, val) => acc + val, 0);
     return Math.round(suma / calificaciones.length);
+}
+
+function crearTheadTablaAlumnos() {
+    const thead = document.createElement('thead');
+    const tr = document.createElement('tr');
+    const headers = ['Nombre', 'Email', 'Promedio', 'Acciones'];
+    headers.forEach(texto => {
+        const th = document.createElement('th');
+        const span = document.createElement('span');
+        span.textContent = texto;
+        th.appendChild(span);
+        tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+    return thead;
 }

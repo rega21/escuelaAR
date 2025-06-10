@@ -12,14 +12,15 @@
         <h2 id="bienvenidaProfe"></h2>
         <p id="infoMateriaProfe"></p>
         <form id="formTarea">
-            <label for="tituloTarea">Título:</label>
+            <label for="tituloTarea">Título de la tarea:</label>
             <input type="text" id="tituloTarea" required>
-            <label for="descripcionTarea">Descripción:</label>
+            <label for="descripcionTarea">Descripción de la tarea:</label>
             <textarea id="descripcionTarea" required></textarea>
             <label for="materiaTarea">Materia:</label>
             <input type="text" id="materiaTarea" readonly>
             <button type="submit">Agregar tarea</button>
         </form>
+        <hr>
         <div id="mensajeTarea"></div>
         <table id="tablaAlumnos">
             <thead>
@@ -35,10 +36,14 @@
             </tbody>
         </table>
         <div id="historialAlumno"></div>
+        <hr>
+      <!--    <h3 id="tareasAsignadas">Tareas asignadas a tus alumnos</h3>-->
+
         <ul id="listaTareasProfe"></ul>
+        
      <!--    <h3>Alumnos anotados en mi materia</h3>
         <ul id="listaAlumnosMateria"></ul>-->
-        <button type="button" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión</button>
+        <button type="button" id="cerrSesionAlumno" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión</button>
     </div>
     
 </body>

@@ -43,6 +43,12 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background: #125ea2;
+    color: #fff;
+    transition: background 0.2s, color 0.2s;
+}
+
 button[type="button"] {
     background: #757575;
 }
@@ -56,7 +62,24 @@ button[type="button"] {
 #tablaAlumnos {
     width: 100%;
     text-align: left;
+    margin-top: 40px;
 }
+
+#tablaAlumnos thead th {
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 10px 0;
+    letter-spacing: 1px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#tablaAlumnos thead th > span {
+    display: inline-block;
+    border-bottom: 3px solid #fff;
+    padding-bottom: 2px;
+}
+
 
 .interfaz-profe {
     max-width: 850px;
@@ -151,6 +174,8 @@ button[type="button"] {
 }
 #cerrSesionAlumno:hover {
     background: #616161;
+    color: #fff;
+    transition: background 0.2s, color 0.2s;
 }
 /*
 #promedioAlumno {
@@ -318,4 +343,31 @@ button[type="button"] {
     text-align: center;
     margin-top: 40px;
     padding: 16px 0 0 0;
+}
+
+
+
+.titulo-seccion {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 1.25em;
+    color: #1976d2;
+    font-weight: bold;
+}
+
+.contador-tareas {
+    font-size: 1em;
+    color: #1976d2;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+.numero-tarea {
+    color: #1976d2;
+    font-weight: bold;
+    margin-right: 6px;
+    font-size: 1em;
 }
