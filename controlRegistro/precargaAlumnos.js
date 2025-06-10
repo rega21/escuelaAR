@@ -324,6 +324,54 @@ if (!localStorage.getItem('alumnos')) {
                     calificacion: 6
                 }
             ]
+        },
+        {
+            nombre: 'marianafisica',
+            password: 'fisica1',
+            email: 'mariana@alumnos.com',
+            materias: ['Física'],
+            entregas: [
+                {
+                    titulo: 'Movimiento rectilíneo',
+                    materia: 'Física',
+                    estado: 'Entregado',
+                    fecha: '2025-06-05',
+                    archivo: 'mru_mruv.pdf',
+                    calificacion: 8
+                }
+            ]
+        },
+        {
+            nombre: 'lucasgeo',
+            password: 'geo1',
+            email: 'lucasgeo@alumnos.com',
+            materias: ['Geografía'],
+            entregas: [
+                {
+                    titulo: 'Continentes y océanos',
+                    materia: 'Geografía',
+                    estado: 'Entregado',
+                    fecha: '2025-06-06',
+                    archivo: 'mapa_continentes.pdf',
+                    calificacion: 9
+                }
+            ]
+        },
+        {
+            nombre: 'sofiaingles',
+            password: 'ingles1',
+            email: 'sofiaingles@alumnos.com',
+            materias: ['Inglés'],
+            entregas: [
+                {
+                    titulo: 'Present Simple',
+                    materia: 'Inglés',
+                    estado: 'Entregado',
+                    fecha: '2025-06-07',
+                    archivo: 'present_simple.pdf',
+                    calificacion: 10
+                }
+            ]
         }
     ];
     localStorage.setItem('alumnos', JSON.stringify(alumnos));

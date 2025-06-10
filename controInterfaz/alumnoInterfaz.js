@@ -369,3 +369,4 @@ window.volverAlPanelAlumno = function() {
     document.getElementById('cerrSesionAlumno').style.display = 'none'; // Ocultar cerrar sesión en el panel de tareas
 };
 
+

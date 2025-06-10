@@ -371,3 +371,25 @@ button[type="button"] {
     margin-right: 6px;
     font-size: 1em;
 }
+
+#materiasBtns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    grid-template-rows: repeat(2, auto);   /* 2 filas */
+    gap: 16px 24px;
+    max-width: 400px;
+    margin: 30px auto 30px auto; /* top, right/left, bottom */
+
+}
+#materiasBtns label {
+    display: flex;
+    align-items: center;
+}
+
+.bienvenida-avatar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}

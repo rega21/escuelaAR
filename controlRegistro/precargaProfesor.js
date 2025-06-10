@@ -3,8 +3,12 @@ if (!localStorage.getItem('profesores')) {
     const profesores = [
         { nombre: 'prof1', password: '123', email: 'garcia@correo.com', materia: 'Matemática' },
         { nombre: 'prof2', password: '12345', email: 'ruiz@correo.com', materia: 'Historia' },
-        { nombre: 'prof3', password: 'lit2024', email: 'literatura@correo.com', materia: 'Literatura' }
+        { nombre: 'prof3', password: 'lit2024', email: 'literatura@correo.com', materia: 'Literatura' },
+        { nombre: 'fisicoperez', password: 'fisica2025', email: 'fisica@escuela.com', materia: 'Física' },
+        { nombre: 'geografialopez', password: 'geo2025', email: 'geografia@escuela.com', materia: 'Geografía' },
+        { nombre: 'inglesmartin', password: 'ingles2025', email: 'ingles@escuela.com', materia: 'Inglés' }
     ];
+    localStorage.setItem('profesores', JSON.stringify(profesores));
 }
 
 // Precarga de tareas
@@ -99,6 +103,42 @@ if (!localStorage.getItem('tareas')) {
             titulo: 'Opinión sobre un libro',
             descripcion: 'Escribe tu opinión sobre un libro que hayas leído recientemente. ¿Qué te gustó y qué no? ¿Recomendarías su lectura a tus compañeros? Justifica tu respuesta.',
             materia: 'Literatura'
+        },
+
+        // Física
+        {
+            titulo: 'Movimiento rectilíneo',
+            descripcion: 'Explica con tus palabras qué es el Movimiento Rectilíneo Uniforme (MRU) y el Movimiento Rectilíneo Uniformemente Variado (MRUV). Da un ejemplo de cada uno, indicando la fórmula utilizada para calcular la velocidad o aceleración. Realiza un dibujo o esquema que represente ambos movimientos y explica las diferencias principales entre ellos.',
+            materia: 'Física'
+        },
+        {
+            titulo: 'Energía y trabajo',
+            descripcion: 'Define qué es la energía y cuáles son sus principales formas (cinética, potencial, térmica, etc.). Explica el concepto de trabajo en física y su relación con la energía. Realiza un ejercicio práctico donde calcules el trabajo realizado al mover un objeto y describe en qué situaciones cotidianas se observa la transformación de energía.',
+            materia: 'Física'
+        },
+
+        // Geografía
+        {
+            titulo: 'Continentes y océanos',
+            descripcion: 'Ubica en un mapa los seis continentes y los principales océanos del mundo. Investiga y escribe una breve descripción de cada continente, mencionando su tamaño, población y alguna característica geográfica destacada. Adjunta un mapa coloreado y señala al menos tres países de cada continente.',
+            materia: 'Geografía'
+        },
+        {
+            titulo: 'Climas del mundo',
+            descripcion: 'Describe los principales tipos de climas del mundo (ecuatorial, tropical, templado, polar, etc.). Explica cómo influyen la latitud, altitud y proximidad al mar en el clima de una región. Elige dos países con climas diferentes y compara sus características climáticas, flora y fauna.',
+            materia: 'Geografía'
+        },
+
+        // Inglés
+        {
+            titulo: 'Present Simple',
+            descripcion: 'Realiza una serie de ejercicios utilizando el tiempo verbal Present Simple. Escribe oraciones afirmativas, negativas e interrogativas sobre rutinas diarias. Luego, redacta un breve párrafo sobre tu día típico usando este tiempo verbal y subraya los verbos principales.',
+            materia: 'Inglés'
+        },
+        {
+            titulo: 'Reading comprehension',
+            descripcion: 'Lee el texto proporcionado por el profesor y responde a las preguntas de comprensión lectora. Identifica las ideas principales y secundarias, y escribe un resumen en inglés de al menos 80 palabras. Explica el significado de cinco palabras nuevas que hayas encontrado en el texto.',
+            materia: 'Inglés'
         }
     ];
     localStorage.setItem('tareas', JSON.stringify(tareas));
@@ -109,7 +149,10 @@ if (!localStorage.getItem('materias')) {
     const materias = [
         { nombre: 'Matemática' },
         { nombre: 'Historia' },
-        { nombre: 'Literatura' }
+        { nombre: 'Literatura' },
+        { nombre: 'Física' },
+        { nombre: 'Geografía' },
+        { nombre: 'Inglés' }
     ];
     localStorage.setItem('materias', JSON.stringify(materias));
 }
