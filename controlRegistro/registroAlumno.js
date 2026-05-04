@@ -1,4 +1,4 @@
-document.getElementById('registroForm').addEventListener('submit', function(e) {
+document.getElementById('registroForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const nombre = document.getElementById('nombre').value.trim();
     const password = document.getElementById('passwordAlumno').value.trim();
@@ -9,24 +9,17 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
         return;
     }
 
-    let alumnos = JSON.parse(localStorage.getItem('alumnos') || '[]');
-    // Validar que el nombre no exista ya
+    // Validar duplicado consultando la API
+    const alumnos = await alumnosAPI.getAll();
     if (alumnos.some(a => a.nombre === nombre)) {
         document.getElementById('mensaje').textContent = 'El nombre ya está registrado.';
         return;
     }
 
-    // Obtener materias seleccionadas
     const materiasSeleccionadas = Array.from(selectMaterias.selectedOptions).map(opt => opt.value);
 
-    alumnos.push({ 
-        nombre, 
-        password, 
-        email, 
-        materias: materiasSeleccionadas, // <-- agrega las materias aquí
-        entregas: [] 
-    });
-    localStorage.setItem('alumnos', JSON.stringify(alumnos));
+    // POST a MockAPI
+    await alumnosAPI.create({ nombre, password, email, materias: materiasSeleccionadas, entregas: [] });
 
     document.getElementById('mensaje').textContent = '¡Registro exitoso! Redirigiendo al login...';
     document.getElementById('registroForm').reset();
@@ -36,7 +29,7 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     }, 2000);
 });
 
-// Llenar el select de materias
+// Llenar el select de materias desde localStorage (materias las gestiona el profe)
 const materias = JSON.parse(localStorage.getItem('materias') || '[]');
 const selectMaterias = document.getElementById('materiasAlumno');
 materias.forEach(m => {

@@ -1,10 +1,10 @@
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const nombre = document.getElementById('nombre').value.trim();
     const password = document.getElementById('password').value.trim();
 
-    // Buscar en alumnos
-    let alumnos = JSON.parse(localStorage.getItem('alumnos') || '[]');
+    // Buscar en MockAPI
+    const alumnos = await alumnosAPI.getAll();
     const alumno = alumnos.find(a => a.nombre === nombre && a.password === password);
 
     if (alumno) {
@@ -13,8 +13,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         return;
     }
 
-    // Buscar en profesores
-    let profesores = JSON.parse(localStorage.getItem('profesores') || '[]');
+    // Profesores siguen en localStorage
+    const profesores = JSON.parse(localStorage.getItem('profesores') || '[]');
     const profesor = profesores.find(p => p.nombre === nombre && p.password === password);
 
     if (profesor) {
