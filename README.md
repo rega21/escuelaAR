@@ -72,14 +72,16 @@ DELETE /materias/:id      → Elimina una materia
 WebEstudiantes/
 ├── api/
 │   ├── alumnosAPI.js          → CRUD alumnos contra MockAPI
-│   └── profesoresAPI.js       → CRUD profesores contra MockAPI
+│   ├── profesoresAPI.js       → CRUD profesores contra MockAPI
+│   ├── tareasAPI.js           → CRUD tareas contra MockAPI
+│   └── materiasAPI.js         → CRUD materias contra MockAPI
 ├── controInterfaz/
 │   ├── alumnoInterfaz.js      → Lógica del panel del alumno
 │   └── profeInterfaz.js       → Lógica del panel del profesor
 ├── controlRegistro/
 │   ├── loginUnico.js          → Autenticación via MockAPI
 │   ├── precargaAlumnos.js     → Seed inicial de alumnos en MockAPI
-│   ├── precargaProfesor.js    → Seed inicial de profesores + tareas/materias en localStorage
+│   ├── precargaProfesor.js    → Seed inicial de profesores, tareas y materias en MockAPI
 │   ├── registroAlumno.js      → Registro de alumno via POST
 │   └── registroProfesor.js    → Registro de profesor via POST
 ├── css/
@@ -103,7 +105,8 @@ WebEstudiantes/
 index.html carga
   → GET /alumnos    (vacío → POST x19 alumnos iniciales)
   → GET /profesores (vacío → POST x6 profesores iniciales)
-  → tareas y materias → localStorage
+  → GET /tareas     (vacío → POST x23 tareas iniciales)
+  → GET /materias   (vacío → POST x6 materias iniciales)
 
 login.html
   → GET /alumnos    → busca alumno por nombre+password
@@ -111,11 +114,12 @@ login.html
   → guarda nombre en localStorage (sesión)
 
 alumnoInterfaz.html
-  → GET /alumnos → carga alumnoActual en memoria
+  → GET /alumnos + GET /tareas + GET /materias → carga todo en memoria
   → cambios (materias, entregas, avatar) → PUT /alumnos/:id
 
 profeInterfaz.html
-  → GET /profesores + GET /alumnos → carga profesorActual y alumnosCache
+  → GET /profesores + GET /alumnos + GET /tareas + GET /materias → carga todo en memoria
+  → nueva tarea → POST /tareas
   → calificar / guardar promedio → PUT /alumnos/:id
 ```
 
