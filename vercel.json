@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/publicWeb/index.html" }
+    { "source": "/", "destination": "/publicWeb/index.html" },
+    { "source": "/index.html", "destination": "/publicWeb/index.html" },
+    { "source": "/login.html", "destination": "/publicWeb/login.html" },
+    { "source": "/registroAlumno.html", "destination": "/publicWeb/registroAlumno.html" },
+    { "source": "/registroProfesor.html", "destination": "/publicWeb/registroProfesor.html" }
   ]
 }
