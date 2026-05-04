@@ -1,14 +1,22 @@
-// Alumno logueado cargado desde MockAPI — no se usa localStorage para datos de alumnos
+// Datos cargados desde MockAPI — sin localStorage para alumnos, tareas ni materias
 let alumnoActual = null;
+let tareasCache = [];
+let materiasCache = [];
 
-async function cargarAlumnoActual() {
+async function cargarDatosAlumno() {
     const nombre = localStorage.getItem('alumnoLogueado');
-    const todos = await alumnosAPI.getAll();
+    const [todos, tareas, materias] = await Promise.all([
+        alumnosAPI.getAll(),
+        tareasAPI.getAll(),
+        materiasAPI.getAll()
+    ]);
     alumnoActual = todos.find(a => a.nombre === nombre) || null;
+    tareasCache = tareas;
+    materiasCache = materias;
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
-    await cargarAlumnoActual();
+    await cargarDatosAlumno();
 
     const nombreAlumno = alumnoActual ? alumnoActual.nombre : 'Alumno';
     document.getElementById('bienvenidaAlumno').textContent = `Estudiante, ${nombreAlumno}`;
@@ -52,7 +60,7 @@ function mostrarSelectMaterias() {
 
 function mostrarTareasDeMateria() {
     const materia = document.getElementById('selectMateriaAlumno').value;
-    const tareas = JSON.parse(localStorage.getItem('tareas') || '[]').filter(t => t.materia === materia);
+    const tareas = tareasCache.filter(t => t.materia === materia);
     const entregas = alumnoActual ? alumnoActual.entregas || [] : [];
     const lista = document.getElementById('listaTareasMateria');
     lista.innerHTML = '';
@@ -77,13 +85,12 @@ function mostrarTareasDeMateria() {
 }
 
 function mostrarModalMaterias() {
-    const materias = JSON.parse(localStorage.getItem('materias') || '[]');
     const cont = document.getElementById('materiasBtns');
     cont.innerHTML = '';
 
     const materiasInscriptas = alumnoActual ? alumnoActual.materias || [] : [];
 
-    materias.forEach(m => {
+    materiasCache.forEach(m => {
         const yaIncripto = materiasInscriptas.includes(m.nombre);
         cont.innerHTML += `
             <label style="margin-right:15px;">
@@ -123,8 +130,7 @@ window.confirmarEntrega = async function() {
     }
 
     const materia = document.getElementById('selectMateriaAlumno').value;
-    const tareas = JSON.parse(localStorage.getItem('tareas') || '[]');
-    const tareaValida = tareas.find(t => t.titulo === tareaActual && t.materia === materia);
+    const tareaValida = tareasCache.find(t => t.titulo === tareaActual && t.materia === materia);
     if (!tareaValida) {
         alert('La tarea seleccionada no corresponde a la materia actual.');
         return;

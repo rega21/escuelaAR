@@ -1,15 +1,21 @@
-// Profesor y alumnos cargados desde MockAPI — no se usa localStorage para estos datos
+// Datos cargados desde MockAPI — sin localStorage
 let profesorActual = null;
 let alumnosCache = [];
+let tareasCache = [];
+let materiasCache = [];
 
 async function cargarDatos() {
     const nombre = localStorage.getItem('profeLogueado');
-    const [profesores, alumnos] = await Promise.all([
+    const [profesores, alumnos, tareas, materias] = await Promise.all([
         profesoresAPI.getAll(),
-        alumnosAPI.getAll()
+        alumnosAPI.getAll(),
+        tareasAPI.getAll(),
+        materiasAPI.getAll()
     ]);
     profesorActual = profesores.find(p => p.nombre === nombre) || null;
     alumnosCache = alumnos;
+    tareasCache = tareas;
+    materiasCache = materias;
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -29,21 +35,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         materiaInput.disabled = true;
     }
 
-    // Publicar nueva tarea
-    document.getElementById('formTarea').addEventListener('submit', function(e) {
+    // Publicar nueva tarea — POST a MockAPI
+    document.getElementById('formTarea').addEventListener('submit', async function(e) {
         e.preventDefault();
         const titulo = document.getElementById('tituloTarea').value.trim();
         const descripcion = document.getElementById('descripcionTarea').value.trim();
-        const materia = document.getElementById('materiaTarea').value;
+        const materia = profesorActual.materia;
 
         if (!titulo || !descripcion) {
             document.getElementById('mensajeTarea').textContent = 'Completa todos los campos.';
             return;
         }
 
-        let tareas = JSON.parse(localStorage.getItem('tareas') || '[]');
-        tareas.push({ titulo, descripcion, materia });
-        localStorage.setItem('tareas', JSON.stringify(tareas));
+        const creada = await tareasAPI.create({ titulo, descripcion, materia }); // POST
+        tareasCache.push(creada);
 
         document.getElementById('mensajeTarea').textContent = '¡Tarea publicada!';
         document.getElementById('formTarea').reset();
@@ -52,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 function mostrarTareasYAlumnosMateria(materia) {
-    const tareas = JSON.parse(localStorage.getItem('tareas') || '[]').filter(t => t.materia === materia);
+    const tareas = tareasCache.filter(t => t.materia === materia);
     const lista = document.getElementById('listaTareasProfe');
     lista.innerHTML = '';
 
@@ -102,14 +107,13 @@ function mostrarAlumnosMateriaEnTabla() {
 }
 
 window.verHistorial = function(nombreAlumno) {
-    const tareas = JSON.parse(localStorage.getItem('tareas') || '[]');
     const alumno = alumnosCache.find(a => a.nombre === nombreAlumno);
     if (!alumno) {
         document.getElementById('historialAlumno').innerHTML = `<p>No existe el alumno ${nombreAlumno}.</p>`;
         return;
     }
 
-    const tareasMateria = tareas.filter(t => t.materia === profesorActual.materia);
+    const tareasMateria = tareasCache.filter(t => t.materia === profesorActual.materia);
 
     let html = `<h4 class="titulo-seccion">Historial de entregas de ${alumno.nombre} en ${profesorActual.materia}</h4>
     <table border="1" style="width:100%;text-align:left;">

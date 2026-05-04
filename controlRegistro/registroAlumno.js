@@ -16,7 +16,7 @@ document.getElementById('registroForm').addEventListener('submit', async functio
         return;
     }
 
-    const materiasSeleccionadas = Array.from(selectMaterias.selectedOptions).map(opt => opt.value);
+    const materiasSeleccionadas = Array.from(document.getElementById('materiasAlumno').selectedOptions).map(opt => opt.value);
 
     // POST a MockAPI
     await alumnosAPI.create({ nombre, password, email, materias: materiasSeleccionadas, entregas: [] });
@@ -29,12 +29,14 @@ document.getElementById('registroForm').addEventListener('submit', async functio
     }, 2000);
 });
 
-// Llenar el select de materias desde localStorage (materias las gestiona el profe)
-const materias = JSON.parse(localStorage.getItem('materias') || '[]');
-const selectMaterias = document.getElementById('materiasAlumno');
-materias.forEach(m => {
-    const option = document.createElement('option');
-    option.value = m.nombre;
-    option.textContent = m.nombre;
-    selectMaterias.appendChild(option);
-});
+// Llenar el select de materias desde MockAPI
+(async () => {
+    const materias = await materiasAPI.getAll();
+    const selectMaterias = document.getElementById('materiasAlumno');
+    materias.forEach(m => {
+        const option = document.createElement('option');
+        option.value = m.nombre;
+        option.textContent = m.nombre;
+        selectMaterias.appendChild(option);
+    });
+})();

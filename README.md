@@ -18,20 +18,22 @@ Plataforma educativa web para la gestión de alumnos, profesores, materias y tar
 
 ### Fuente de datos
 
-| Recurso | Almacenamiento | Motivo |
-|---|---|---|
-| Alumnos | MockAPI (`/alumnos`) | Datos compartidos entre dispositivos |
-| Profesores | MockAPI (`/profesores`) | Datos compartidos entre dispositivos |
-| Tareas | localStorage | Gestionadas localmente por el profesor |
-| Materias | localStorage | Gestionadas localmente por el profesor |
-| Sesión activa | localStorage (`alumnoLogueado`, `profeLogueado`) | Solo persiste en el navegador actual |
+| Recurso | Almacenamiento |
+|---|---|
+| Alumnos | MockAPI (`/alumnos`) |
+| Profesores | MockAPI (`/profesores`) |
+| Tareas | MockAPI (`/tareas`) |
+| Materias | MockAPI (`/materias`) |
+| Sesión activa | localStorage (`alumnoLogueado`, `profeLogueado`) |
 
 ### Capa API (`api/`)
 
 ```
 api/
 ├── alumnosAPI.js     → GET, POST, PUT, DELETE /alumnos
-└── profesoresAPI.js  → GET, POST, PUT, DELETE /profesores
+├── profesoresAPI.js  → GET, POST, PUT, DELETE /profesores
+├── tareasAPI.js      → GET, POST, PUT, DELETE /tareas
+└── materiasAPI.js    → GET, POST, PUT, DELETE /materias
 ```
 
 Todos los métodos son `async` y devuelven el JSON de la respuesta.
@@ -50,6 +52,16 @@ GET    /profesores        → Lista todos los profesores
 POST   /profesores        → Crea un profesor nuevo
 PUT    /profesores/:id    → Actualiza un profesor
 DELETE /profesores/:id    → Elimina un profesor
+
+GET    /tareas            → Lista todas las tareas
+POST   /tareas            → Crea una tarea nueva
+PUT    /tareas/:id        → Actualiza una tarea
+DELETE /tareas/:id        → Elimina una tarea
+
+GET    /materias          → Lista todas las materias
+POST   /materias          → Crea una materia nueva
+PUT    /materias/:id      → Actualiza una materia
+DELETE /materias/:id      → Elimina una materia
 ```
 
 ---
