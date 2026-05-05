@@ -16,12 +16,17 @@
             <input type="password" id="passwordProfe" name="passwordProfe" required autocomplete="current-password">
             <label for="emailProfe">Email:</label>
             <input type="email" id="emailProfe" name="emailProfe" required autocomplete="email">
+            <label for="materiaProfe">Materia:</label>
+            <select id="materiaProfe" required style="width:100%; padding:8px; margin-bottom:15px;">
+                <option value="">Seleccionar materia...</option>
+            </select>
             <button type="submit">Registrarse</button>
             <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
         </form>
         <div id="mensajeProfe"></div>
     </div>
     <script src="../api/profesoresAPI.js"></script>
+    <script src="../api/materiasAPI.js"></script>
     <script src="../controlRegistro/registroProfesor.js"></script>
 
 </body>
