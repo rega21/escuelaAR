@@ -1,3 +1,13 @@
+function mostrarToast(mensaje, callback) {
+    const toast = document.getElementById('toastBaja');
+    toast.textContent = mensaje;
+    toast.className = 'toast-visible';
+    setTimeout(() => {
+        toast.className = '';
+        if (callback) callback();
+    }, 2500);
+}
+
 // Datos cargados desde MockAPI — sin localStorage para alumnos, tareas ni materias
 let alumnoActual = null;
 let tareasCache = [];
@@ -210,29 +220,32 @@ window.darseDeBajaMateria = async function() {
     const mensaje = document.getElementById('mensajeMaterias');
 
     if (alumnoActual.materias.length === 0) {
-        alert('Te has dado de baja de todas las materias. Elige nuevas materias para continuar.');
-        document.getElementById('contenidoAlumno').style.display = 'none';
-        document.getElementById('modalMaterias').style.display = 'block';
-        document.getElementById('cerrSesionAlumno').style.display = '';
-        mostrarModalMaterias();
-        mostrarBotonBajaMateria();
-        mostrarBotonEliminarCuenta();
-        let btn = document.getElementById('btnBajaMateria');
-        if (btn) btn.remove();
-        let btnMenu = document.getElementById('btnMenuAlumno');
-        if (btnMenu) btnMenu.style.display = 'none';
+        mostrarToast('Te has dado de baja de todas las materias. Elegí nuevas materias para continuar.', () => {
+            document.getElementById('contenidoAlumno').style.display = 'none';
+            document.getElementById('modalMaterias').style.display = 'block';
+            document.getElementById('cerrSesionAlumno').style.display = '';
+            mostrarModalMaterias();
+            mostrarBotonBajaMateria();
+            mostrarBotonEliminarCuenta();
+            let btn = document.getElementById('btnBajaMateria');
+            if (btn) btn.remove();
+            let btnMenu = document.getElementById('btnMenuAlumno');
+            if (btnMenu) btnMenu.style.display = 'none';
+        });
     } else {
-        alert(`Te has dado de baja de ${materia}.`);
-        document.getElementById('modalMaterias').style.display = 'none';
-        document.getElementById('contenidoAlumno').style.display = 'block';
-        mostrarSelectMaterias();
-        mostrarTareasDeMateria();
-        mostrarEntregas();
-        mostrarBotonBajaMateria();
-        if (mensaje) {
-            mensaje.textContent = 'Puedes anotarte en nuevas materias.';
-            mensaje.style.color = '';
-        }
+        mostrarToast(`Te diste de baja de ${materia}.`, () => {
+            document.getElementById('modalMaterias').style.display = 'none';
+            document.getElementById('contenidoAlumno').style.display = 'block';
+            mostrarSelectMaterias();
+            mostrarTareasDeMateria();
+            mostrarEntregas();
+            mostrarBotonBajaMateria();
+            if (mensaje) {
+                mensaje.textContent = 'Puedes anotarte en nuevas materias.';
+                mensaje.style.color = '';
+            }
+            abrirMenuAlumno();
+        });
     }
 };
 
@@ -280,13 +293,13 @@ function mostrarBotonEliminarCuenta() {
 
 window.abrirMenuAlumno = function() {
     document.getElementById('contenidoAlumno').style.display = 'none';
-    document.getElementById('modalMaterias').style.display = 'block';
     document.getElementById('btnMenuAlumno').style.display = 'none';
-    document.getElementById('btnIrPanelAlumno').disabled = false;
     document.getElementById('cerrSesionAlumno').style.display = '';
 
     let btn = document.getElementById('btnBajaMateria');
     if (btn) btn.remove();
+
+    mostrarModalMaterias();
 };
 
 window.volverAlPanelAlumno = function() {

@@ -16,10 +16,8 @@ document.getElementById('registroForm').addEventListener('submit', async functio
         return;
     }
 
-    const materiasSeleccionadas = Array.from(document.getElementById('materiasAlumno').selectedOptions).map(opt => opt.value);
-
     // POST a MockAPI
-    await alumnosAPI.create({ nombre, password, email, materias: materiasSeleccionadas, entregas: [] });
+    await alumnosAPI.create({ nombre, password, email, materias: [], entregas: [] });
 
     document.getElementById('mensaje').textContent = '¡Registro exitoso! Redirigiendo al login...';
     document.getElementById('registroForm').reset();
@@ -29,14 +27,3 @@ document.getElementById('registroForm').addEventListener('submit', async functio
     }, 2000);
 });
 
-// Llenar el select de materias desde MockAPI
-(async () => {
-    const materias = await materiasAPI.getAll();
-    const selectMaterias = document.getElementById('materiasAlumno');
-    materias.forEach(m => {
-        const option = document.createElement('option');
-        option.value = m.nombre;
-        option.textContent = m.nombre;
-        selectMaterias.appendChild(option);
-    });
-})();

@@ -56,6 +56,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 });
 
+window.actualizarAlumnos = async function() {
+    alumnosCache = await alumnosAPI.getAll();
+    mostrarAlumnosMateriaEnTabla();
+    document.getElementById('historialAlumno').innerHTML = '';
+};
+
 function mostrarTareasYAlumnosMateria(materia) {
     const tareas = tareasCache.filter(t => t.materia === materia);
     const lista = document.getElementById('listaTareasProfe');
