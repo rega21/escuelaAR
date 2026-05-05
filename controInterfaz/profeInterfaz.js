@@ -92,7 +92,7 @@ function mostrarTareasYAlumnosMateria(materia) {
 
 function mostrarAlumnosMateriaEnTabla() {
     if (!profesorActual) return;
-    const alumnosMateria = alumnosCache.filter(al => (al.materias || []).includes(profesorActual.materia));
+    const alumnosMateria = alumnosCache.filter(al => Array.isArray(al.materias) && al.materias.includes(profesorActual.materia));
     const tabla = document.getElementById('tablaAlumnos');
     tabla.innerHTML = '';
     tabla.appendChild(crearTheadTablaAlumnos());
@@ -123,7 +123,7 @@ window.verHistorial = function(nombreAlumno) {
 
     let html = `<h4 class="titulo-seccion">Historial de entregas de ${alumno.nombre} en ${profesorActual.materia}</h4>
     <table border="1" style="width:100%;text-align:left;">
-        <tr><th>Tarea</th><th>Estado</th><th>Fecha</th><th>Calificación</th><th>Adjunto</th></tr>`;
+        <tr><th>Tarea</th><th>Estado</th><th>Fecha</th><th>Calificación</th><th>Respuesta</th></tr>`;
 
     tareasMateria.forEach(tarea => {
         const entrega = alumno.entregas ? alumno.entregas.find(e => e.titulo === tarea.titulo) : null;
@@ -131,7 +131,7 @@ window.verHistorial = function(nombreAlumno) {
         const fecha = entrega && entrega.fecha ? entrega.fecha : '---';
         const calificacion = entrega && entrega.calificacion ? entrega.calificacion : '';
         const disabled = estado === 'Pendiente' ? 'disabled' : '';
-        const adjunto = entrega && entrega.archivo ? entrega.archivo : '';
+        const respuesta = entrega && entrega.respuesta ? entrega.respuesta : '---';
         let style = '';
         if (calificacion) {
             style = Number(calificacion) >= 6 ? 'background-color:#d4f7d4;' : 'background-color:#ffd6d6;';
@@ -149,7 +149,7 @@ window.verHistorial = function(nombreAlumno) {
                     }).join('')}
                 </select>
             </td>
-            <td>${adjunto}</td>
+            <td style="max-width:200px; word-wrap:break-word;">${respuesta}</td>
         </tr>`;
     });
 
@@ -190,7 +190,7 @@ window.guardarPromedio = async function(nombreAlumno) {
 };
 
 function calcularPromedioMateria(alumno, materia) {
-    if (!alumno.entregas || alumno.entregas.length === 0) return 'N/A';
+    if (!Array.isArray(alumno.entregas) || alumno.entregas.length === 0) return 'N/A';
     const calificaciones = alumno.entregas
         .filter(e => e.materia === materia && typeof e.calificacion === 'number')
         .map(e => e.calificacion);

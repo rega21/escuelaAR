@@ -122,7 +122,7 @@ function mostrarModalMaterias() {
 window.abrirModalEntrega = function(tituloTarea) {
     tareaActual = tituloTarea;
     document.getElementById('tituloEntrega').textContent = `Entregar: ${tituloTarea}`;
-    document.getElementById('archivoEntrega').value = '';
+    document.getElementById('respuestaEntrega').value = '';
     document.getElementById('entregaModal').style.display = 'block';
 };
 
@@ -131,11 +131,10 @@ window.cerrarModalEntrega = function() {
 };
 
 window.confirmarEntrega = async function() {
-    const archivoInput = document.getElementById('archivoEntrega');
-    const archivo = archivoInput.files[0] ? archivoInput.files[0].name : null;
+    const respuesta = document.getElementById('respuestaEntrega').value.trim();
 
-    if (!archivo) {
-        alert('Debes adjuntar un archivo para entregar la tarea.');
+    if (!respuesta) {
+        alert('Debes escribir una respuesta para entregar la tarea.');
         return;
     }
 
@@ -146,13 +145,13 @@ window.confirmarEntrega = async function() {
         return;
     }
 
-    if (!alumnoActual.entregas) alumnoActual.entregas = [];
+    if (!Array.isArray(alumnoActual.entregas)) alumnoActual.entregas = [];
     alumnoActual.entregas.push({
         titulo: tareaActual,
         materia,
         estado: 'Entregado',
         fecha: new Date().toISOString().slice(0, 10),
-        archivo
+        respuesta
     });
 
     await alumnosAPI.update(alumnoActual.id, alumnoActual); // PUT
@@ -204,7 +203,7 @@ function mostrarEntregas() {
     }
 
     entregasMateria.forEach(entrega => {
-        lista.innerHTML += `<li><strong>${entrega.titulo}</strong> - Estado: ${entrega.estado} - Fecha: ${entrega.fecha} ${entrega.archivo ? `- Archivo: ${entrega.archivo}` : ''}</li>`;
+        lista.innerHTML += `<li><strong>${entrega.titulo}</strong> - Estado: ${entrega.estado} - Fecha: ${entrega.fecha}${entrega.respuesta ? `<br><em>${entrega.respuesta}</em>` : ''}</li>`;
     });
 }
 

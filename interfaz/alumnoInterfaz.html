@@ -58,8 +58,9 @@
         <!-- Modal para entregar tarea -->
         <div id="entregaModal" style="display:none;">
             <h4 id="tituloEntrega"></h4>
-            <input type="file" id="archivoEntrega">
-            <button onclick="confirmarEntrega()">Subir trabajo</button>
+            <label for="respuestaEntrega">Tu respuesta:</label>
+            <textarea id="respuestaEntrega" rows="6" placeholder="Escribí tu respuesta aquí..."></textarea>
+            <button onclick="confirmarEntrega()">Entregar</button>
             <button onclick="cerrarModalEntrega()">Cancelar</button>
         </div>
         <!-- Mensaje general para tareas -->
