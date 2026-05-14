@@ -6,6 +6,9 @@ body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #particles-js {
@@ -66,8 +69,9 @@ body {
 }
 
 .container {
-    max-width: 380px;
-    margin: 80px auto;
+    max-width: 410px;
+    width: 90%;
+    margin: auto;
     background: rgba(10, 5, 35, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);

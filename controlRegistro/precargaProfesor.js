@@ -7,7 +7,7 @@ const profesoresIniciales = [
     { nombre: 'prof3', password: 'lit2024', email: 'literatura@correo.com', materia: 'Literatura' },
     { nombre: 'fisicoperez', password: 'fisica2025', email: 'fisica@escuela.com', materia: 'Física' },
     { nombre: 'geografialopez', password: 'geo2025', email: 'geografia@escuela.com', materia: 'Geografía' },
-    { nombre: 'inglesmartin', password: 'ingles2025', email: 'ingles@escuela.com', materia: 'Inglés' }
+    { nombre: 'F', password: 'ingles2025', email: 'ingles@escuela.com', materia: 'Inglés' }
 ];
 
 const tareasIniciales = [

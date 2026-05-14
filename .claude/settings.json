@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes remote -v)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes status)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes add vercel.json)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes commit -m ' *)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes push origin main)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes add publicWeb/registroAlumno.html)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes add api/profesoresAPI.js controlRegistro/precargaProfesor.js controlRegistro/registroProfesor.js controlRegistro/loginUnico.js controInterfaz/profeInterfaz.js interfaz/profeInterfaz.html publicWeb/registroProfesor.html publicWeb/index.html publicWeb/login.html)",
+      "Bash(git -C c:/Users/user/Desktop/Programacion/Js/WebEstudiantes add README.md)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}

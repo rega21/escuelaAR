@@ -2,7 +2,7 @@
 // Seedea MockAPI con datos iniciales si está vacía. No usa localStorage.
 
 const alumnosIniciales = [
-    { nombre: 'agus', password: '1234', email: 'juan@hotmail.com', materias: [], entregas: [] },
+    { nombre: 'c', password: '1234', email: 'juan@hotmail.com', materias: [], entregas: [] },
     { nombre: 'cami', password: 'abcd', email: 'ana@gmail.com', materias: ['Historia'], entregas: [] },
     {
         nombre: 'eugueniamaneiros', password: '1234', email: 'eugue@gmail.com',

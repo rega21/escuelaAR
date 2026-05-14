@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro — El Lame</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .toggle-rol {
+            display: flex;
+            border: 1px solid rgba(140,80,255,0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+        .toggle-rol button {
+            flex: 1;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            padding: 10px;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .toggle-rol button.activo {
+            background: #7c3aed;
+            color: #fff;
+        }
+        .toggle-rol button:hover:not(.activo) {
+            background: rgba(124,58,237,0.2);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <script src="../controlRegistro/shootingStar.js"></script>
+    <div class="container">
+        <h2>Registro</h2>
+
+        <div class="toggle-rol">
+            <button id="btnAlumno" class="activo" onclick="setRol('alumno')">Alumno</button>
+            <button id="btnProfesor" onclick="setRol('profesor')">Profesor</button>
+        </div>
+
+        <form id="registroForm">
+            <label>Nombre completo:</label>
+            <input type="text" id="nombre" required autocomplete="username">
+            <label>Contraseña:</label>
+            <input type="password" id="password" required autocomplete="new-password">
+            <label>Email:</label>
+            <input type="email" id="email" required autocomplete="email">
+
+            <div id="campoMateria" style="display:none;">
+                <label>Materia:</label>
+                <select id="materiaProfe" style="width:100%; padding:8px; margin-bottom:15px; background:rgba(255,255,255,0.08); border:1px solid rgba(140,80,255,0.4); border-radius:5px; color:#fff;">
+                    <option value="">Seleccionar materia...</option>
+                </select>
+            </div>
+
+            <button type="submit">Registrarse</button>
+            <button type="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+        </form>
+        <div id="mensaje"></div>
+    </div>
+
+    <script src="../api/alumnosAPI.js"></script>
+    <script src="../api/profesoresAPI.js"></script>
+    <script src="../api/materiasAPI.js"></script>
+    <script src="../controlRegistro/registroUnificado.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 140, density: { enable: true, value_area: 800 } },
+            color: { value: ['#ffffff', '#a78bfa', '#93c5fd', '#f0abfc'] },
+            shape: { type: 'circle' },
+            opacity: { value: 0.7, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.05, sync: false } },
+            size: { value: 2.5, random: true },
+            line_linked: { enable: false },
+            move: { enable: true, speed: 0.4, direction: 'none', random: true, out_mode: 'out' }
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: { onhover: { enable: true, mode: 'bubble' }, onclick: { enable: false } },
+            modes: { bubble: { distance: 120, size: 5, duration: 2, opacity: 1 } }
+        }
+    });
+    </script>
+</body>
+</html>
