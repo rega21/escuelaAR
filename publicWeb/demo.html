@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo — EscuelaAR</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .container-demo {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 30px 25px 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .demo-descripcion {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .demo-btns {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .demo-btns button {
+            margin-bottom: 0;
+        }
+        #btnReset {
+            background: #e74c3c;
+        }
+        #btnReset:hover { background: #c0392b; }
+        #btnReset:disabled, #btnPlay:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+        #log {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 13px;
+            min-height: 180px;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.9;
+        }
+        #log .ok   { color: #2ecc71; }
+        #log .err  { color: #e74c3c; }
+        #log .info { color: #74b9ff; }
+        #log .sep  { color: #a29bfe; font-weight: bold; margin-top: 6px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container-demo">
+        <h2>Simulación de datos</h2>
+        <p class="demo-descripcion">Genera un profesor, alumnos, tareas y entregas de prueba en MockAPI automáticamente.</p>
+
+        <div class="demo-btns">
+            <button id="btnPlay" onclick="simular()">▶ Simular</button>
+            <button id="btnReset" onclick="resetearDemo()" disabled>✕ Limpiar</button>
+        </div>
+
+        <div id="log"><span class="info">Listo. Presioná ▶ Simular para comenzar.</span></div>
+    </div>
+
+    <script src="../api/alumnosAPI.js"></script>
+    <script src="../api/profesoresAPI.js"></script>
+    <script src="../api/tareasAPI.js"></script>
+    <script src="../api/materiasAPI.js"></script>
+    <script>
+        const DEMO_TAG = '[DEMO]';
+        let idsCreados = { alumnos: [], profesores: [], tareas: [] };
+
+        function log(msg, tipo = 'ok') {
+            const div = document.getElementById('log');
+            div.innerHTML += `<div class="${tipo}">${msg}</div>`;
+            div.scrollTop = div.scrollHeight;
+        }
+
+        function logSep(titulo) {
+            document.getElementById('log').innerHTML +=
+                `<span class="sep">── ${titulo} ──</span>`;
+        }
+
+        async function simular() {
+            document.getElementById('btnPlay').disabled = true;
+            document.getElementById('btnReset').disabled = true;
+            document.getElementById('log').innerHTML = '';
+            idsCreados = { alumnos: [], profesores: [], tareas: [] };
+
+            try {
+                logSep('Materias');
+                const materias = await materiasAPI.getAll();
+                if (!materias.length) {
+                    log('No hay materias en MockAPI. Creá al menos una primero.', 'err');
+                    document.getElementById('btnPlay').disabled = false;
+                    return;
+                }
+                const materia = materias[0].nombre;
+                log(`✓ Materia seleccionada: ${materia}`);
+
+                logSep('Profesor');
+                const profe = await profesoresAPI.create({
+                    nombre: `${DEMO_TAG} Prof. García`,
+                    password: 'demo123',
+                    email: 'garcia.demo@escuela.ar',
+                    materia
+                });
+                idsCreados.profesores.push(profe.id);
+                log(`✓ Profesor creado: ${profe.nombre} (id: ${profe.id})`);
+
+                logSep('Alumnos');
+                const alumnosData = [
+                    { nombre: `${DEMO_TAG} Ana López`,   email: 'ana.demo@escuela.ar' },
+                    { nombre: `${DEMO_TAG} Carlos Ruiz`, email: 'carlos.demo@escuela.ar' },
+                    { nombre: `${DEMO_TAG} Lucía Pérez`, email: 'lucia.demo@escuela.ar' },
+                ];
+                const alumnosCreados = [];
+                for (const datos of alumnosData) {
+                    const al = await alumnosAPI.create({
+                        ...datos, password: 'demo123', materias: [materia], entregas: []
+                    });
+                    alumnosCreados.push(al);
+                    idsCreados.alumnos.push(al.id);
+                    log(`✓ Alumno creado: ${al.nombre} (id: ${al.id})`);
+                }
+
+                logSep('Tareas');
+                const tareasData = [
+                    { titulo: `${DEMO_TAG} El sistema solar`,   descripcion: 'Describí los planetas del sistema solar en al menos 10 líneas.' },
+                    { titulo: `${DEMO_TAG} Suma de fracciones`, descripcion: 'Resolvé los ejercicios del apunte de fracciones, página 14.' },
+                ];
+                const tareasCreadas = [];
+                for (const datos of tareasData) {
+                    const t = await tareasAPI.create({ ...datos, materia });
+                    tareasCreadas.push(t);
+                    idsCreados.tareas.push(t.id);
+                    log(`✓ Tarea creada: "${t.titulo}" (id: ${t.id})`);
+                }
+
+                logSep('Entregas');
+                const respuestas = [
+                    'El sistema solar está compuesto por el Sol y ocho planetas...',
+                    'Para sumar fracciones con igual denominador se suman los numeradores...'
+                ];
+                const calificaciones = [[8, 7, 9], [6, 10, 7]];
+
+                for (let ai = 0; ai < alumnosCreados.length; ai++) {
+                    const al = alumnosCreados[ai];
+                    const entregas = tareasCreadas.map((t, ti) => ({
+                        titulo: t.titulo, materia,
+                        estado: 'Entregado',
+                        fecha: new Date().toISOString().slice(0, 10),
+                        respuesta: respuestas[ti],
+                        calificacion: calificaciones[ti][ai]
+                    }));
+                    await alumnosAPI.update(al.id, { ...al, entregas });
+                    log(`✓ Entregas cargadas para ${al.nombre}`);
+                }
+
+                logSep('Completado');
+                log('Podés iniciar sesión con:', 'info');
+                log('  · Profesor: "[DEMO] Prof. García" / demo123', 'info');
+                log('  · Alumno:   "[DEMO] Ana López" / demo123', 'info');
+                document.getElementById('btnReset').disabled = false;
+
+            } catch (err) {
+                log(`✕ Error: ${err.message}`, 'err');
+                document.getElementById('btnPlay').disabled = false;
+            }
+        }
+
+        async function resetearDemo() {
+            document.getElementById('btnReset').disabled = true;
+            document.getElementById('log').innerHTML = '';
+            log('Eliminando datos demo...', 'info');
+
+            try {
+                for (const id of idsCreados.alumnos) {
+                    await alumnosAPI.delete(id);
+                    log(`✓ Alumno eliminado (id: ${id})`);
+                }
+                for (const id of idsCreados.profesores) {
+                    await profesoresAPI.delete(id);
+                    log(`✓ Profesor eliminado (id: ${id})`);
+                }
+                for (const id of idsCreados.tareas) {
+                    await tareasAPI.delete(id);
+                    log(`✓ Tarea eliminada (id: ${id})`);
+                }
+                log('✓ Limpieza completa.', 'ok');
+                idsCreados = { alumnos: [], profesores: [], tareas: [] };
+                document.getElementById('btnPlay').disabled = false;
+            } catch (err) {
+                log(`✕ Error al limpiar: ${err.message}`, 'err');
+                document.getElementById('btnReset').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

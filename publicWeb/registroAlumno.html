@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../css/estilos.css">
 </head>
 <body>
+    <div id="particles-js"></div>
+    <script src="../controlRegistro/shootingStar.js"></script>
     <div class="container">
         <h2>Registro de Alumno</h2>
         <form id="registroForm">
@@ -24,5 +26,24 @@
     <script src="../api/alumnosAPI.js"></script>
     <script src="../api/materiasAPI.js"></script>
     <script src="../controlRegistro/registroAlumno.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 140, density: { enable: true, value_area: 800 } },
+            color: { value: ['#ffffff', '#a78bfa', '#93c5fd', '#f0abfc'] },
+            shape: { type: 'circle' },
+            opacity: { value: 0.7, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.05, sync: false } },
+            size: { value: 2.5, random: true },
+            line_linked: { enable: false },
+            move: { enable: true, speed: 0.4, direction: 'none', random: true, out_mode: 'out' }
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: { onhover: { enable: true, mode: 'bubble' }, onclick: { enable: false } },
+            modes: { bubble: { distance: 120, size: 5, duration: 2, opacity: 1 } }
+        }
+    });
+    </script>
 </body>
 </html>
