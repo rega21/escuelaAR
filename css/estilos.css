@@ -81,10 +81,14 @@ body {
     border: 1px solid rgba(140, 80, 255, 0.3);
 }
 
-h2 {
+h2, h3, h4 {
     text-align: center;
     margin-bottom: 25px;
     color: #fff;
+}
+
+p, span, li {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 label {
@@ -102,6 +106,7 @@ input[type="text"], input[type="password"], input[type="email"] {
     border-radius: 5px;
     background: rgba(255,255,255,0.08);
     color: #fff;
+    box-sizing: border-box;
 }
 
 input[type="text"]::placeholder,
@@ -251,7 +256,7 @@ button[type="button"]:hover {
 }
 
 #cerrSesionAlumno {
-    margin-top: 150px;
+    margin-top: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -298,18 +303,21 @@ button[type="button"]:hover {
     margin-bottom: 15px;
 }
 
-/* estilos.css */
-.btn-baja-materia {
-    background: #e74c3c;
-    color: #fff;
-    margin-top: 20px;
+.btn-baja-icono {
+    background: transparent;
     border: none;
-    padding: 10px 18px;
-    border-radius: 4px;
+    font-size: 1.1rem;
     cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    width: auto;
+    margin: 0;
 }
-.btn-baja-materia:hover {
-    background: #c0392b;
+.btn-baja-icono:hover {
+    opacity: 1;
+    background: rgba(231, 76, 60, 0.2);
 }
 
 .btn-eliminar-cuenta {
@@ -405,21 +413,29 @@ button[type="button"]:hover {
 }
 
 /* Agrega esto a tu estilos.css */
-#btnIrPanelAlumno:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-    color: #fff;
-    background-color: #d32f2f;
-    border: 1px solid #b71c1c;
-    position: relative;
+#btnIrPanelAlumno {
+    background: transparent;
+    border: 1.5px solid #7c3aed;
+    color: #c4b5fd;
 }
 
-#btnIrPanelAlumno:disabled::before {
-    content: "❌ ";
-    color: #173aff;
-    font-size: 1.0em;
-    position: relative;
-    left: 0;
+#btnIrPanelAlumno:hover:not(:disabled) {
+    background: rgba(124, 58, 237, 0.2);
+    color: #fff;
+}
+
+#btnIrPanelAlumno:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    background: transparent;
+    border: 1.5px solid rgba(140, 80, 255, 0.3);
+    color: #9ca3af;
+}
+
+.seccion-divider {
+    border: none;
+    border-top: 1px solid rgba(140, 80, 255, 0.35);
+    margin: 28px 0 20px 0;
 }
 
 .footer {
@@ -458,16 +474,48 @@ button[type="button"]:hover {
 
 #materiasBtns {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-    grid-template-rows: repeat(2, auto);   /* 2 filas */
-    gap: 16px 24px;
-    max-width: 400px;
-    margin: 30px auto 30px auto; /* top, right/left, bottom */
-
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 420px;
+    margin: 20px auto;
 }
+
 #materiasBtns label {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #e2d9f3;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(140,80,255,0.35);
+    border-radius: 20px;
+    padding: 7px 10px;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    user-select: none;
+}
+
+#materiasBtns label:hover:not(:has(input:disabled)) {
+    background: rgba(124, 58, 237, 0.2);
+    border-color: #7c3aed;
+}
+
+#materiasBtns input[type="checkbox"] {
+    display: none;
+}
+
+#materiasBtns label:has(input:checked:disabled) {
+    background: rgba(25, 118, 210, 0.28);
+    border-color: #1976d2;
+    color: #90caf9;
+    cursor: default;
+}
+
+#materiasBtns label:has(input:checked:not(:disabled)) {
+    background: rgba(124, 58, 237, 0.5);
+    border-color: #a78bfa;
+    color: #fff;
 }
 
 #materiasAlumno {
@@ -505,8 +553,104 @@ button[type="button"]:hover {
 
 .bienvenida-avatar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     gap: 12px;
     margin-bottom: 18px;
+}
+
+.estado-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: #86efac;
+    font-weight: 500;
+}
+
+.dot-online {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px #22c55e;
+}
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    body {
+        background-image: url('../controlRegistro/img/intro-mobile.png');
+        background-attachment: scroll;
+        background-position: center top;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .container {
+        width: 82%;
+        padding: 18px 16px 16px 16px;
+        border-radius: 10px;
+        margin: 20px auto;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"] {
+        padding: 6px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    h2, h3, h4 {
+        margin-bottom: 14px;
+    }
+
+    .interfaz-alumno,
+    .interfaz-profe {
+        max-width: 100%;
+        min-height: unset;
+        width: 94%;
+    }
+
+    #cerrSesionAlumno {
+        margin-top: 24px;
+    }
+
+    #listaTareasMateria,
+    #listaEntregas {
+        max-height: 340px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }
+
+    h2, h3, h4 {
+        font-size: 1.1rem;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 9px;
+    }
+
+    #tablaAlumnos {
+        font-size: 13px;
+    }
+
+    .bienvenida-avatar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        width: 96%;
+        padding: 18px 12px;
+    }
+
+    #materiasBtns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h2, h3, h4 {
+        font-size: 1rem;
+    }
 }

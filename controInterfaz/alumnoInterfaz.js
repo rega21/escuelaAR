@@ -31,14 +31,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const nombreAlumno = alumnoActual ? alumnoActual.nombre : 'Alumno';
     document.getElementById('bienvenidaAlumno').textContent = `Estudiante, ${nombreAlumno}`;
 
-    const avatar = alumnoActual && alumnoActual.avatar ? alumnoActual.avatar : 'gato.png';
-    document.getElementById('selectAvatarAlumno').value = avatar;
-
-    document.getElementById('selectAvatarAlumno').addEventListener('change', async function(e) {
-        alumnoActual.avatar = e.target.value;
-        await alumnosAPI.update(alumnoActual.id, alumnoActual); // PUT
-    });
-
     const promedio = alumnoActual && alumnoActual.promedio !== undefined ? alumnoActual.promedio : 'N/A';
     document.getElementById('promedioAlumno').textContent = `Promedio: ${promedio}`;
 
@@ -103,9 +95,9 @@ function mostrarModalMaterias() {
     materiasCache.forEach(m => {
         const yaIncripto = materiasInscriptas.includes(m.nombre);
         cont.innerHTML += `
-            <label style="margin-right:15px;">
-                <input type="checkbox" value="${m.nombre}" class="materiaCheck" ${yaIncripto ? 'checked disabled' : ''}> ${m.nombre}
-                ${yaIncripto ? '<span style="color: #1976d2; font-size: 0.95em;">(inscripto)</span>' : ''}
+            <label>
+                <input type="checkbox" value="${m.nombre}" class="materiaCheck" ${yaIncripto ? 'checked disabled' : ''}>
+                ${yaIncripto ? '✓ ' : ''}${m.nombre}
             </label>
         `;
     });
@@ -226,8 +218,6 @@ window.darseDeBajaMateria = async function() {
             mostrarModalMaterias();
             mostrarBotonBajaMateria();
             mostrarBotonEliminarCuenta();
-            let btn = document.getElementById('btnBajaMateria');
-            if (btn) btn.remove();
             let btnMenu = document.getElementById('btnMenuAlumno');
             if (btnMenu) btnMenu.style.display = 'none';
         });
@@ -249,20 +239,10 @@ window.darseDeBajaMateria = async function() {
 };
 
 function mostrarBotonBajaMateria() {
-    if (document.getElementById('contenidoAlumno').style.display === 'none') return;
-
-    const cerrarSesionBtn = document.getElementById('cerrSesionAlumno');
-    let btn = document.getElementById('btnBajaMateria');
-    if (btn) btn.remove();
-
-    if (alumnoActual && alumnoActual.materias && alumnoActual.materias.length > 0) {
-        btn = document.createElement('button');
-        btn.id = 'btnBajaMateria';
-        btn.textContent = 'Darse de baja de la materia';
-        btn.className = 'btn-baja-materia';
-        btn.onclick = darseDeBajaMateria;
-        cerrarSesionBtn.parentNode.insertBefore(btn, cerrarSesionBtn.nextSibling);
-    }
+    const btn = document.getElementById('btnBajaMateria');
+    if (!btn) return;
+    const tieneMateria = alumnoActual && alumnoActual.materias && alumnoActual.materias.length > 0;
+    btn.style.display = tieneMateria ? '' : 'none';
 }
 
 window.eliminarCuenta = async function() {

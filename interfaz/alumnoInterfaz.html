@@ -15,30 +15,21 @@
         <!-- Perfil y selección de avatar -->
         <div id="perfilAlumnoMenu" style="margin-bottom: 10px;">
             <div class="bienvenida-avatar">
-                <!-- Mensaje de bienvenida con el nombre del alumno -->
+                <span class="estado-online"><span class="dot-online"></span>En línea</span>
                 <span id="bienvenidaAlumno"></span>
-                <!-- Selector de avatar con emojis de animales -->
-                <select id="selectAvatarAlumno" style="margin-left:10px; vertical-align:middle;">
-                    <option value="gato.png">🐱 Gato</option>
-                    <option value="perro.png">🐶 Perro</option>
-                    <option value="panda.png">🐼 Panda</option>
-                    <option value="zorro.png">🦊 Zorro</option>
-                    <option value="conejo.png">🐰 Conejo</option>
-                </select>
             </div>
-            <!-- Si quieres mostrar la imagen del avatar, agrega aquí el <img id="fotoPerfilAlumno"> -->
         </div>
         <!-- Promedio del alumno -->
         <div id="promedioAlumno"></div>
         <hr>
         <!-- Menú de selección de materias -->
         <div id="modalMaterias" style="display:none;">
-            <h4>Seleccion materias a cursar</h4>
+            <h4>Selección de materias</h4>
             <div id="materiasBtns"></div>
             <!-- Botón para guardar materias elegidas -->
             <button id="guardarMateriasElegidas" onclick="guardarMateriasElegidas()">Guardar materias</button>
             <!-- Botón para ir al panel de tareas -->
-            <button id="btnIrPanelAlumno" onclick="volverAlPanelAlumno()" disabled>Panel de tareas</button>
+            <button id="btnIrPanelAlumno" onclick="volverAlPanelAlumno()" disabled>Ir a mis tareas →</button>
             <!-- Mensaje de confirmación o advertencia -->
             <p id="mensajeMaterias" class="mensaje-confirmacion"></p>
         </div>
@@ -46,11 +37,12 @@
         <div id="contenidoAlumno" style="display:none;">
             <h3 class="tareas-materia-heading">
                 Tareas de la materia
-                <!-- Selector de materia para ver tareas -->
                 <select id="selectMateriaAlumno"></select>
+                <button id="btnBajaMateria" type="button" class="btn-baja-icono" onclick="darseDeBajaMateria()" title="Darse de baja de esta materia" style="display:none;">🗑️</button>
             </h3>
             <!-- Lista de tareas de la materia seleccionada -->
             <ul id="listaTareasMateria"></ul>
+            <hr class="seccion-divider">
             <h3>Mis entregas</h3>
             <!-- Lista de entregas realizadas -->
             <ul id="listaEntregas"></ul>
