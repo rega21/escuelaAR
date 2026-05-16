@@ -13,43 +13,42 @@
 </head>
 <body>
     <div class="container interfaz-profe">
-        <h2 id="bienvenidaProfe"></h2>
-        <p id="infoMateriaProfe"></p>
-        <form id="formTarea">
-            <label for="tituloTarea">Título de la tarea:</label>
-            <input type="text" id="tituloTarea" required>
-            <label for="descripcionTarea">Descripción de la tarea:</label>
-            <textarea id="descripcionTarea" required></textarea>
-            <label for="materiaTarea">Materia:</label>
-            <input type="text" id="materiaTarea" readonly>
-            <button type="submit">Agregar tarea</button>
-        </form>
-        <hr>
-        <div id="mensajeTarea"></div>
-        <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-            <button type="button" onclick="actualizarAlumnos()">Actualizar alumnos</button>
+        <div class="bienvenida-avatar">
+            <span class="estado-online"><span class="dot-online"></span>En línea</span>
+            <h2 id="bienvenidaProfe" style="margin:0;font-size:1.2rem;"></h2>
         </div>
-        <table id="tablaAlumnos">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Promedio</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Aquí se llenarán los alumnos por JS -->
-            </tbody>
-        </table>
-        <div id="historialAlumno"></div>
-        <hr>
-      <!--    <h3 id="tareasAsignadas">Tareas asignadas a tus alumnos</h3>-->
+        <p id="infoMateriaProfe"></p>
 
-        <ul id="listaTareasProfe"></ul>
-        
-     <!--    <h3>Alumnos anotados en mi materia</h3>
-        <ul id="listaAlumnosMateria"></ul>-->
+        <!-- Tabs -->
+        <div class="tabs-profe">
+            <button class="tab-btn activo" onclick="mostrarTab('tareas')">Tareas</button>
+            <button class="tab-btn" onclick="mostrarTab('alumnos')">Alumnos</button>
+        </div>
+
+        <!-- Tab: Tareas -->
+        <div id="tabTareas">
+            <form id="formTarea">
+                <label for="tituloTarea">Título de la tarea:</label>
+                <input type="text" id="tituloTarea" required>
+                <label for="descripcionTarea">Descripción de la tarea:</label>
+                <textarea id="descripcionTarea" required></textarea>
+                <label for="materiaTarea">Materia:</label>
+                <input type="text" id="materiaTarea" readonly>
+                <button type="submit">Agregar tarea</button>
+            </form>
+            <div id="mensajeTarea"></div>
+            <ul id="listaTareasProfe"></ul>
+        </div>
+
+        <!-- Tab: Alumnos -->
+        <div id="tabAlumnos" style="display:none;">
+            <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+                <button type="button" onclick="actualizarAlumnos()">Actualizar alumnos</button>
+            </div>
+            <table id="tablaAlumnos"></table>
+            <div id="historialAlumno"></div>
+        </div>
+
         <button type="button" id="cerrSesionAlumno" onclick="window.location.href='../publicWeb/index.html'">Cerrar sesión</button>
     </div>
     

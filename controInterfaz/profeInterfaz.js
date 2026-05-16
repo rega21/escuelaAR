@@ -1,3 +1,10 @@
+window.mostrarTab = function(tab) {
+    document.getElementById('tabTareas').style.display = tab === 'tareas' ? '' : 'none';
+    document.getElementById('tabAlumnos').style.display = tab === 'alumnos' ? '' : 'none';
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('activo'));
+    document.querySelector(`.tab-btn[onclick="mostrarTab('${tab}')"]`).classList.add('activo');
+};
+
 // Datos cargados desde MockAPI — sin localStorage
 let profesorActual = null;
 let alumnosCache = [];
@@ -121,8 +128,8 @@ window.verHistorial = function(nombreAlumno) {
 
     const tareasMateria = tareasCache.filter(t => t.materia === profesorActual.materia);
 
-    let html = `<h4 class="titulo-seccion">Historial de entregas de ${alumno.nombre} en ${profesorActual.materia}</h4>
-    <table border="1" style="width:100%;text-align:left;">
+    let html = `<h4 class="titulo-seccion">Historial de ${alumno.nombre} — ${profesorActual.materia}</h4>
+    <table class="tabla-historial">
         <tr><th>Tarea</th><th>Estado</th><th>Fecha</th><th>Calificación</th><th>Respuesta</th></tr>`;
 
     tareasMateria.forEach(tarea => {
@@ -132,24 +139,24 @@ window.verHistorial = function(nombreAlumno) {
         const calificacion = entrega && entrega.calificacion ? entrega.calificacion : '';
         const disabled = estado === 'Pendiente' ? 'disabled' : '';
         const respuesta = entrega && entrega.respuesta ? entrega.respuesta : '---';
-        let style = '';
+        let rowClass = '';
         if (calificacion) {
-            style = Number(calificacion) >= 6 ? 'background-color:#d4f7d4;' : 'background-color:#ffd6d6;';
+            rowClass = Number(calificacion) >= 6 ? 'aprobado' : 'reprobado';
         }
-        html += `<tr style="${style}">
+        html += `<tr class="${rowClass}">
             <td>${tarea.titulo}</td>
             <td>${estado}</td>
             <td>${fecha}</td>
             <td>
                 <select onchange="calificarEntrega('${alumno.nombre}', '${tarea.titulo}', this.value)" ${disabled}>
-                    <option value="">Sin calificar</option>
+                    <option value="">-</option>
                     ${[...Array(10)].map((_, i) => {
                         const val = i + 1;
                         return `<option value="${val}"${calificacion == val ? ' selected' : ''}>${val}</option>`;
                     }).join('')}
                 </select>
             </td>
-            <td style="max-width:200px; word-wrap:break-word;">${respuesta}</td>
+            <td style="max-width:180px; word-break:break-word;">${respuesta}</td>
         </tr>`;
     });
 
